@@ -21,7 +21,7 @@ mongoose
 
 app.get("/students", async (req, res) => {
   try {
-    const data = await User.find().sort({ score: 1 });
+    const data = await User.find().sort({ score: -1 });
     res.status(200).json({ status: true, data });
   } catch (error) {
     res.status(400).json({ status: false, error });
