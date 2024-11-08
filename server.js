@@ -6,7 +6,7 @@ require("dotenv").config();
 app.use(express.json());
 
 //
-const PORT = process.env.PORT;
+const PORT = 5000 || process.env.PORT;
 const URI = process.env.URI;
 //
 mongoose
