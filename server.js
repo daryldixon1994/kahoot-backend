@@ -45,7 +45,7 @@ app.put("/students/:id", async (req, res) => {
   try {
     let { id } = req.params;
     await User.findByIdAndUpdate(id, {
-      $set: { ...req.body },
+      $inc: { score: 3 },
     });
 
     res.status(204).end();
