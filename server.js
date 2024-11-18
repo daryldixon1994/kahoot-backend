@@ -41,13 +41,35 @@ app.post("/students", async (req, res) => {
     res.status(400).json({ status: false, error });
   }
 });
-app.put("/students/:id", async (req, res) => {
+
+app.put("/students/first/:id", async (req, res) => {
   try {
     let { id } = req.params;
     await User.findByIdAndUpdate(id, {
       $inc: { score: 3 },
     });
-
+    res.status(204).end();
+  } catch (error) {
+    res.status(400).json({ status: false, error });
+  }
+});
+app.put("/students/second/:id", async (req, res) => {
+  try {
+    let { id } = req.params;
+    await User.findByIdAndUpdate(id, {
+      $inc: { score: 2 },
+    });
+    res.status(204).end();
+  } catch (error) {
+    res.status(400).json({ status: false, error });
+  }
+});
+app.put("/students/third/:id", async (req, res) => {
+  try {
+    let { id } = req.params;
+    await User.findByIdAndUpdate(id, {
+      $inc: { score: 1 },
+    });
     res.status(204).end();
   } catch (error) {
     res.status(400).json({ status: false, error });
