@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
-const User = require("./models/Student");
+const Student = require("./models/Student");
 require("dotenv").config();
 const cors = require("cors");
 
@@ -19,21 +19,23 @@ mongoose
   })
   .catch((err) => console.log(err));
 
+// get all students
 app.get("/students", async (req, res) => {
   try {
-    const data = await User.find().sort({ score: -1 });
+    const data = await Student.find().sort({ score: -1 });
     res.status(200).json({ status: true, data });
   } catch (error) {
     res.status(400).json({ status: false, error });
   }
 });
+
+// add new student
 app.post("/students", async (req, res) => {
   try {
-    const { name, img, score } = req.body;
-    const newUser = new User({
+    const { name, img } = req.body;
+    const newUser = new Student({
       name,
       img,
-      score,
     });
     await newUser.save();
     res.status(204).end();
@@ -41,11 +43,11 @@ app.post("/students", async (req, res) => {
     res.status(400).json({ status: false, error });
   }
 });
-
+// update user score
 app.put("/students/first/:id", async (req, res) => {
   try {
     let { id } = req.params;
-    await User.findByIdAndUpdate(id, {
+    await Student.findByIdAndUpdate(id, {
       $inc: { score: 3 },
     });
     res.status(204).end();
@@ -56,7 +58,7 @@ app.put("/students/first/:id", async (req, res) => {
 app.put("/students/second/:id", async (req, res) => {
   try {
     let { id } = req.params;
-    await User.findByIdAndUpdate(id, {
+    await Student.findByIdAndUpdate(id, {
       $inc: { score: 2 },
     });
     res.status(204).end();
@@ -67,9 +69,19 @@ app.put("/students/second/:id", async (req, res) => {
 app.put("/students/third/:id", async (req, res) => {
   try {
     let { id } = req.params;
-    await User.findByIdAndUpdate(id, {
+    await Student.findByIdAndUpdate(id, {
       $inc: { score: 1 },
     });
+    res.status(204).end();
+  } catch (error) {
+    res.status(400).json({ status: false, error });
+  }
+});
+
+app.delete("/students/:id", async (req, res) => {
+  try {
+    let { id } = req.params;
+    await Student.findByIdAndDelete(id);
     res.status(204).end();
   } catch (error) {
     res.status(400).json({ status: false, error });
